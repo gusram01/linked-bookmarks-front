@@ -1,0 +1,84 @@
+---
+import {
+  SignedIn,
+  SignedOut,
+  UserButton,
+  SignInButton,
+} from "@clerk/astro/components";
+
+export interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Bookmark Manager" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+  </head>
+  <body class="min-h-dvh">
+    <div class="max-w-screen-lg mx-auto">
+      <header>
+        <nav class="bg-white border-gray-200 dark:bg-gray-900">
+          <div
+            class="flex flex-wrap items-center justify-between p-4"
+          >
+            <a href="/" class="flex items-center ">
+              <span
+                class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
+              >
+                Bookmark Manager
+              </span>
+            </a>
+
+            <ul class="flex items-center gap-4 font-medium p-4">
+              <SignedOut>
+              <li class="">
+                  <a
+                    href="/"
+                    class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                  >
+                    Home
+                  </a>
+                </li>
+                <li class="">
+                  <SignInButton
+                    mode="modal"
+                    class="text-gray-900 bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-teal-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                  />
+                </li>
+              </SignedOut>
+
+              <SignedIn>
+                <a
+                  href="/dashboard"
+                  class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                >
+                  List
+                </a>
+                <a
+                  href="/bookmarks/new"
+                  class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                >
+                  New One
+                </a>
+                <UserButton />
+              </SignedIn>
+            </ul>
+          </div>
+        </nav>
+
+        <main class="">
+          <slot />
+        </main>
+      </header>
+    </div>
+  </body>
+</html>

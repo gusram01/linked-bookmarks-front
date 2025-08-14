@@ -1,0 +1,122 @@
+---
+import type { GetAuthReturn } from "@clerk/astro/server";
+import Layout from "../../layouts/Layout.astro";
+
+const { userId, getToken } = Astro.locals.auth() as unknown as GetAuthReturn;
+
+
+if (!userId) {
+  Astro.redirect("/api/auth/signin");
+}
+
+let success = "";
+let error = "";
+
+if (Astro.request.method === "POST") {
+  try {
+    const formData = await Astro.request.formData();
+    const url = formData.get("url");
+
+    if (!url) {
+      error = "URL is required";
+      return;
+    }
+
+    const token = await getToken();
+
+    if (!token) {
+      error = "Failed to retrieve authentication token";
+      return;
+    }
+
+    const response = await fetch("http://localhost:4200/api/links", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        url,
+      }),
+    });
+
+    if (!response.ok) {
+      switch (response.status) {
+        case 400:
+          error = "Bookmark URL is invalid or already exists";
+          break;
+        case 401:
+          error = "Authentication required";
+          break;
+        case 403:
+          error = "You don't have permission to create bookmarks";
+          break;
+        case 404:
+          error = "Please review the request";
+          break;
+        default:
+          error = "An unexpected error occurred";
+      }
+    } else {
+      Astro.redirect("/dashboard?success=Bookmark created successfully");
+    }
+  } catch (e) {
+    error = "Unable to connect to API server";
+  }
+}
+---
+
+<Layout title="Add Bookmark - Bookmark Manager">
+  <div>
+    <h1>Add New Bookmark</h1>
+
+    {error && <div>{error}</div>}
+
+    <div>
+      <form method="POST">
+        <label
+          for="search"
+          class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
+        >
+          Enter URL
+        </label>
+        <div class="relative">
+          <div
+            class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
+          >
+            <svg
+              class="w-4 h-4 text-gray-500 dark:text-gray-400"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 20 20"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"></path>
+            </svg>
+          </div>
+
+          <input
+            type="text"
+            inputmode="url"
+            id="url"
+            name="url"
+            class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="https://my-link.com"
+            required
+          />
+          <button
+            type="submit"
+            class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            Add Link
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</Layout>
