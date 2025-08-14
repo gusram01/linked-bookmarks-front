@@ -1,4 +1,4 @@
-import { defineConfig } from 'astro/config';
+import { defineConfig, envField } from 'astro/config';
 import node from '@astrojs/node';
 import clerk from '@clerk/astro';
 
@@ -12,5 +12,10 @@ export default defineConfig({
   integrations: [clerk({
     afterSignInUrl: '/bookmarks/new',
     afterSignUpUrl: '/bookmarks/new'
-  }), tailwind()]
+  }), tailwind()],
+  env: {
+    schema: {
+      WEB_API_BASE_URL: envField.string({ context: "server", access: "secret", default: "http://localhost:8000" }),
+    }
+  }
 });

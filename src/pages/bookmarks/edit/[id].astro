@@ -1,8 +1,8 @@
 ---
-import type { GetAuthReturn } from "@clerk/astro/server";
 import Layout from "../../../layouts/Layout.astro";
+import { WEB_API_BASE_URL } from "astro:env/server";
 
-const { getToken } = Astro.locals.auth() as unknown as GetAuthReturn;
+const { getToken } = Astro.locals.auth();
 const token = await getToken();
 
 let bookmark = null;
@@ -11,15 +11,12 @@ let success = "";
 
 // Fetch existing bookmark
 try {
-  const response = await fetch(
-    `http://localhost:4200/api/links/${Astro.params.id}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    }
-  );
+  const response = await fetch(`${WEB_API_BASE_URL}/api/links/${Astro.params.id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
 
   if (response.ok) {
     const data = await response.json();
@@ -37,7 +34,7 @@ if (Astro.request.method === "POST" && bookmark) {
     const url = formData.get("url");
 
     const response = await fetch(
-      `http://localhost:4200/api/links/${Astro.params.id}`,
+      `${WEB_API_BASE_URL}/api/links/${Astro.params.id}`,
       {
         method: "PUT",
         headers: {

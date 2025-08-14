@@ -1,11 +1,10 @@
 ---
-import type { GetAuthReturn } from "@clerk/astro/server";
 import Layout from "../../layouts/Layout.astro";
+import { WEB_API_BASE_URL } from "astro:env/server";
 
-const { userId, getToken } = Astro.locals.auth() as unknown as GetAuthReturn;
+const { isAuthenticated, getToken } = Astro.locals.auth();
 
-
-if (!userId) {
+if (!isAuthenticated) {
   Astro.redirect("/api/auth/signin");
 }
 
@@ -29,7 +28,7 @@ if (Astro.request.method === "POST") {
       return;
     }
 
-    const response = await fetch("http://localhost:4200/api/links", {
+    const response = await fetch(`${WEB_API_BASE_URL}/api/links`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -71,22 +70,33 @@ if (Astro.request.method === "POST") {
     <!-- Header -->
     <div class="mb-8">
       <div class="flex items-center mb-4">
-       
         <h1 class="text-3xl font-bold text-gray-900">Add New Bookmark</h1>
       </div>
       <p class="text-gray-600">Save a link to your bookmark collection</p>
     </div>
 
-    {error && (
-      <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
-        <div class="flex items-center">
-          <svg class="w-5 h-5 text-red-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>
-          <p class="text-red-700 font-medium">{error}</p>
+    {
+      error && (
+        <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
+          <div class="flex items-center">
+            <svg
+              class="w-5 h-5 text-red-500 mr-3"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <p class="text-red-700 font-medium">{error}</p>
+          </div>
         </div>
-      </div>
-    )}
+      )
+    }
 
     <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
       <form method="POST">
@@ -95,9 +105,21 @@ if (Astro.request.method === "POST") {
             Website URL
           </label>
           <div class="relative">
-            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-              <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+            <div
+              class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+            >
+              <svg
+                class="w-5 h-5 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+                ></path>
               </svg>
             </div>
             <input
@@ -119,8 +141,17 @@ if (Astro.request.method === "POST") {
             type="submit"
             class="flex-1 inline-flex items-center justify-center px-6 py-3 text-base font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-sm hover:shadow-md"
           >
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
+            <svg
+              class="w-5 h-5 mr-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
             </svg>
             Save Bookmark
           </button>
