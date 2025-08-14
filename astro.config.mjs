@@ -10,7 +10,7 @@ export default defineConfig({
     mode: 'standalone'
   }),
   integrations: [clerk({
-    afterSignInUrl: '/dashboard',
-    afterSignUpUrl: '/dashboard'
+    afterSignInUrl: '/bookmarks/new',
+    afterSignUpUrl: '/bookmarks/new'
   }), tailwind()]
 });
