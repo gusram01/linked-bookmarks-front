@@ -1,6 +1,7 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
-import { WEB_API_BASE_URL } from "astro:env/server";
+
+const WEB_API_BASE_URL = process.env.WEB_API_BASE_URL;
 
 const { getToken } = Astro.locals.auth();
 const token = await getToken();
@@ -11,12 +12,15 @@ let success = "";
 
 // Fetch existing bookmark
 try {
-  const response = await fetch(`${WEB_API_BASE_URL}/api/links/${Astro.params.id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
+  const response = await fetch(
+    `${WEB_API_BASE_URL}/api/links/${Astro.params.id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
 
   if (response.ok) {
     const data = await response.json();

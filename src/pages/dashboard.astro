@@ -1,7 +1,8 @@
 ---
 import type { GetAuthReturn } from "@clerk/astro/server";
 import Layout from "../layouts/Layout.astro";
-import { WEB_API_BASE_URL } from "astro:env/server";
+
+const WEB_API_BASE_URL = process.env.WEB_API_BASE_URL
 
 const { getToken } = Astro.locals.auth() as unknown as GetAuthReturn;
 
