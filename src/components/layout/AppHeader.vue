@@ -52,6 +52,6 @@
   </header>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/vue'
 </script>
