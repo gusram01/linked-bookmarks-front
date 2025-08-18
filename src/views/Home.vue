@@ -1,8 +1,4 @@
----
-import Layout from "../layouts/Layout.astro";
----
-
-<Layout title="Bookmark Manager">
+<template>
   <section class="relative overflow-hidden">
     <!-- Hero Section -->
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -30,15 +26,15 @@ import Layout from "../layouts/Layout.astro";
           </p>
 
           <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <a
-              href="/bookmarks/new"
+            <router-link
+              to="/bookmarks/new"
               class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3 text-base font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
             >
               Get Started
               <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
               </svg>
-            </a>
+            </router-link>
             <a
               href="#features"
               class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3 text-base font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-xl border border-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
@@ -112,17 +108,21 @@ import Layout from "../layouts/Layout.astro";
           <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
             Join thousands of users who have already organized their digital life
           </p>
-          <a
-            href="/bookmarks/new"
+          <router-link
+            to="/bookmarks/new"
             class="inline-flex items-center justify-center px-8 py-3 text-base font-medium text-blue-600 bg-white hover:bg-gray-50 rounded-xl transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
           >
             Start Organizing Now
             <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
             </svg>
-          </a>
+          </router-link>
         </div>
       </div>
     </div>
   </section>
-</Layout>
+</template>
+
+<script setup>
+// Home page component - no additional logic needed
+</script>
