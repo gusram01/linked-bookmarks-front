@@ -11,8 +11,8 @@ app.use(createPinia())
 app.use(router)
 app.use(clerkPlugin, {
   publishableKey: import.meta.env.VITE_CLERK_PUBLISHABLE_KEY,
-  signInFallbackRedirectUrl: '/bookmarks/new',
-  signUpFallbackRedirectUrl: '/bookmarks/new',
+  signInFallbackRedirectUrl: '/bookmark',
+  signUpFallbackRedirectUrl: '/bookmark',
 })
 
 app.mount('#app')

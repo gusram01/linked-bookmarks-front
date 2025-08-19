@@ -30,13 +30,13 @@
 
             <SignedIn>
               <router-link
-                to="/bookmarks/new"
+                to="/bookmark"
                 class="px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors duration-200"
               >
                 Init
               </router-link>
               <router-link
-                to="/dashboard"
+                to="/bookmarks"
                 class="px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors duration-200"
               >
                 My Links

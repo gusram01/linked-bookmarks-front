@@ -1,51 +1,67 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import { useAuth } from '@clerk/vue'
-import Home from '../views/Home.vue'
-import Dashboard from '../views/Dashboard.vue'
-import NewBookmark from '../views/NewBookmark.vue'
-import EditBookmark from '../views/EditBookmark.vue'
+import { createRouter, createWebHistory } from "vue-router";
+import { useUser } from "@clerk/vue";
+import Home from "../views/Home.vue";
+import Dashboard from "../views/Dashboard.vue";
+import NewBookmark from "../views/NewBookmark.vue";
+import EditBookmark from "../views/EditBookmark.vue";
+import SignIn from "../views/SignIn.vue"
 
 const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home
+    path: "/",
+    name: "Home",
+    component: Home,
   },
   {
-    path: '/dashboard',
-    name: 'Dashboard',
+    path: "/bookmarks",
+    name: "Dashboard",
     component: Dashboard,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true },
   },
   {
-    path: '/bookmarks/new',
-    name: 'NewBookmark',
+    path: "/bookmark",
+    name: "Bookmark",
     component: NewBookmark,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true },
   },
   {
-    path: '/bookmarks/edit/:id',
-    name: 'EditBookmark',
+    path: "/bookmark/edit/:id",
+    name: "EditBookmark",
     component: EditBookmark,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/sign-in",
+    name: "SignIn",
+    component: SignIn,
   }
-]
+];
 
 const router = createRouter({
   history: createWebHistory(),
-  routes
-})
+  routes,
+});
 
 router.beforeEach(async (to, from, next) => {
-  const { isSignedIn } = useAuth()
-  
+  const { isLoaded, isSignedIn } = useUser();
+  await new Promise((resolve) => {
+    const check = () => {
+      if (isLoaded.value) {
+        resolve();
+      } else {
+        requestAnimationFrame(check);
+      }
+    };
+    check();
+  });
+
   if (to.meta.requiresAuth && !isSignedIn.value) {
     // Redirect to sign in
-    window.location.href = '/sign-in'
-    return
+    window.location.href = "/sign-in";
+    return;
   }
-  
-  next()
-})
 
-export default router
+  next();
+});
+
+export default router;
