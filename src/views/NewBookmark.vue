@@ -84,7 +84,7 @@ const handleSubmit = async () => {
 
   try {
     await bookmarkStore.createBookmark({ url: form.url })
-    router.push('/dashboard')
+    router.push('/bookmarks')
   } catch (err) {
     // Error is handled by the store
   }

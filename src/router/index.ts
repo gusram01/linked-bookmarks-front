@@ -1,10 +1,11 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { useUser } from "@clerk/vue";
-import Home from "../views/Home.vue";
-import Dashboard from "../views/Dashboard.vue";
-import NewBookmark from "../views/NewBookmark.vue";
-import EditBookmark from "../views/EditBookmark.vue";
-import SignIn from "../views/SignIn.vue"
+import Home from "@/views/Home.vue";
+import Dashboard from "@/views/Dashboard.vue";
+import NewBookmark from "@/views/NewBookmark.vue";
+import EditBookmark from "@/views/EditBookmark.vue";
+import SignIn from "@/views/SignIn.vue"
+import SignUp from "@/views/SignUp.vue";
 
 const routes = [
   {
@@ -34,6 +35,11 @@ const routes = [
     path: "/sign-in",
     name: "SignIn",
     component: SignIn,
+  },
+  {
+    path: "/sign-up",
+    name: "SignUp",
+    component: SignUp
   }
 ];
 
@@ -44,7 +50,7 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const { isLoaded, isSignedIn } = useUser();
-  await new Promise((resolve) => {
+  await new Promise<void>((resolve) => {
     const check = () => {
       if (isLoaded.value) {
         resolve();

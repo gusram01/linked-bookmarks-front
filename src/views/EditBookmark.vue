@@ -4,7 +4,7 @@
     <div class="mb-8">
       <div class="flex items-center mb-4">
         <router-link
-          to="/dashboard"
+          to="/bookmarks"
           class="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors duration-200 mr-3"
         >
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -96,7 +96,7 @@
             {{ loading ? 'Updating...' : 'Update Bookmark' }}
           </button>
           <router-link
-            to="/dashboard"
+            to="/bookmarks"
             class="inline-flex items-center justify-center px-6 py-3 text-base font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-xl border border-gray-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
           >
             Cancel
@@ -117,7 +117,7 @@
         The bookmark you're looking for doesn't exist or has been removed.
       </p>
       <router-link
-        to="/dashboard"
+        to="/bookmarks"
         class="inline-flex items-center justify-center px-6 py-3 text-base font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-sm hover:shadow-md"
       >
         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -176,7 +176,7 @@ const handleSubmit = async () => {
       url: form.url,
       description: form.description
     })
-    router.push('/dashboard')
+    router.push('/bookmarks')
   } catch (err) {
     // Error is handled by the store
   }

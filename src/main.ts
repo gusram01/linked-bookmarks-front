@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { clerkPlugin } from '@clerk/vue'
-import router from './router'
+import router from './router/index'
 import App from './App.vue'
 import './style.css'
 

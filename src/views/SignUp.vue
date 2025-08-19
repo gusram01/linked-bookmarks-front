@@ -1,11 +1,11 @@
 <template>
 
     <div class="max-w-3xl mx-auto flex items-center justify-center pt-12">
-        <SignIn sign-up-url="/sign-up" />
+        <SignUp sign-in-url="/sign-in" />
     </div>
 
 </template>
 
 <script setup lang="ts">
-import { SignIn } from '@clerk/vue';
+import { SignUp } from '@clerk/vue';
 </script>

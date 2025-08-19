@@ -5,18 +5,15 @@
   </div>
 </template>
 
-<script setup>
-defineProps({
-  size: {
-    type: String,
-    default: 'md',
-    validator: (value) => ['sm', 'md', 'lg'].includes(value)
-  },
-  text: {
-    type: String,
-    default: ''
-  }
-})
+<script setup lang="ts">
+import { computed, defineProps } from 'vue'
+
+
+
+const props = defineProps<{
+size: string
+text: string
+}>()
 
 const containerClass = computed(() => {
   return props.size === 'lg' ? 'py-16' : props.size === 'sm' ? 'py-2' : 'py-8'
@@ -29,12 +26,6 @@ const spinnerClass = computed(() => {
 const textClass = computed(() => {
   return props.size === 'lg' ? 'text-lg' : props.size === 'sm' ? 'text-sm' : 'text-base'
 })
-</script>
 
-<script>
-import { computed } from 'vue'
 
-export default {
-  name: 'LoadingSpinner'
-}
 </script>
