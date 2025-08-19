@@ -9,6 +9,7 @@ COPY package*.json ./
 RUN npm ci --no-progress --loglevel=error --ignore-scripts
 
 COPY . .
+COPY ./.env ./
 
 RUN node --run build
 
