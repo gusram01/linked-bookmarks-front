@@ -6,7 +6,8 @@ export interface Bookmark {
   id: string;
   title: string;
   url: string;
-  comment: string;
+  summary: string;
+  attempts: number;
   tags: string[];
 }
 

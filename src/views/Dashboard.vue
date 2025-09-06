@@ -73,10 +73,10 @@
         <div class="flex items-start justify-between mb-4">
           <div class="flex-1 min-w-0">
             <h3 class="text-lg font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors duration-200">
-              {{ bookmark.title }}
+              {{ bookmark.url }}
             </h3>
-            <p v-if="bookmark.description" class="text-gray-600 text-sm mb-3 line-clamp-2">
-              {{ bookmark.description }}
+            <p v-if="bookmark.summary" class="text-gray-600 text-sm mb-3 line-clamp-2">
+              {{ bookmark.summary }}
             </p>
           </div>
         </div>
