@@ -11,32 +11,48 @@ export interface Bookmark {
   tags: string[];
 }
 
+export interface BookmarkResponse {
+  links: Bookmark[];
+  totalCount: number;
+}
+
 export const useBookmarkStore = defineStore('bookmarks', () => {
   // State
   const bookmarks = ref<Bookmark[]>([])
+  const totalCount = ref(0)
+  const totalPages = ref(0)
+  const currentPage = ref(0)
   const loading = ref(false)
   const error = ref('')
   const successMessage = ref('')
 
   // Getters
-  const hasBookmarks = computed(() => bookmarks.value.length > 0)
-  const bookmarkCount = computed(() => bookmarks.value.length)
+  const hasBookmarks = computed(() => totalCount.value > 0)
 
   const {getAll, create, update, deleteById, getById} = useBookmarkService()
 
   // Actions
-  const fetchBookmarks = async () => {
+  const fetchBookmarks = async (req?: {
+    pageNum?: number
+  }) => {
     loading.value = true
     error.value = ''
     
     try {
-      const data = await getAll()
-      bookmarks.value = data
+      const data = await getAll(req)
+      bookmarks.value = data.links
+      totalCount.value = data.totalCount
+      totalPages.value = data.totalPages
+
     } catch (err: any) {
       error.value = err.message || 'Failed to load bookmarks'
     } finally {
       loading.value = false
     }
+  }
+
+  const setCurrentPage = (page: number) => {
+    currentPage.value = page
   }
 
   const createBookmark = async (bookmarkData: Omit<Bookmark, 'id'>) => {
@@ -112,15 +128,18 @@ export const useBookmarkStore = defineStore('bookmarks', () => {
     loading,
     error,
     successMessage,
+    totalCount,
+    totalPages,
+    currentPage,
     // Getters
     hasBookmarks,
-    bookmarkCount,
     // Actions
     fetchBookmarks,
     createBookmark,
     updateBookmark,
     deleteBookmark,
     getBookmarkById,
-    clearMessages
+    clearMessages,
+    setCurrentPage,
   }
 })

@@ -1,6 +1,10 @@
-import axios, { AxiosError } from "axios";
+import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import type { Bookmark } from "../stores/bookmarks";
 import { useAuth } from "@clerk/vue";
+
+export interface GetAllBookmarksRequest {
+  pageNum?: number;
+}
 
 const API_BASE_URL =
   import.meta.env.VITE_WEB_API_BASE_URL || "http://localhost:8000";
@@ -58,9 +62,17 @@ export function useBookmarkService() {
   );
 
   return {
-    async getAll(): Promise<Bookmark[]> {
-      const response = await api.get("/api/links");
-      return response.data.data || [];
+    async getAll(req?: GetAllBookmarksRequest): Promise<{
+      links: Bookmark[];
+      totalCount: number;
+      totalPages: number;
+    }> {
+      const config: AxiosRequestConfig = {
+        params: { pageNum: req?.pageNum || 0 },
+      };
+
+      const response = await api.get("/api/links", config);
+      return response.data.data || { links: [], totalCount: 0, totalPages: 0 };
     },
 
     async getById(id: string): Promise<Bookmark> {

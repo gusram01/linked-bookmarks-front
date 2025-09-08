@@ -32,21 +32,6 @@
     <div v-else-if="bookmark" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
       <form @submit.prevent="handleSubmit">
         <div class="mb-6">
-          <label for="title" class="block text-sm font-medium text-gray-700 mb-2">
-            Title
-          </label>
-          <input
-            v-model="form.title"
-            type="text"
-            id="title"
-            name="title"
-            class="block w-full px-3 py-3 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
-            required
-            :disabled="loading"
-          />
-        </div>
-
-        <div class="mb-6">
           <label for="url" class="block text-sm font-medium text-gray-700 mb-2">
             URL
           </label>
@@ -73,7 +58,7 @@
             Description
           </label>
           <textarea
-            v-model="form.description"
+            v-model="form.summary"
             id="description"
             name="description"
             rows="4"
@@ -148,7 +133,7 @@ const initialLoading = ref(true)
 const form = reactive({
   title: '',
   url: '',
-  description: ''
+  summary: ''
 })
 
 onMounted(async () => {
@@ -156,10 +141,8 @@ onMounted(async () => {
     const bookmarkData = await bookmarkStore.getBookmarkById(route.params.id)
     bookmark.value = bookmarkData
     
-    // Populate form
-    form.title = bookmarkData.title || ''
     form.url = bookmarkData.url || ''
-    form.description = bookmarkData.description || ''
+    form.summary = bookmarkData.summary || ''
   } catch (err) {
     // Error handled by store
   } finally {
@@ -168,18 +151,19 @@ onMounted(async () => {
 })
 
 const handleSubmit = async () => {
-  if (!form.url || !form.title) return
-
-  try {
-    await bookmarkStore.updateBookmark(route.params.id, {
-      title: form.title,
-      url: form.url,
-      description: form.description
-    })
-    router.push('/bookmarks')
-  } catch (err) {
-    // Error is handled by the store
+  if (!form.url ){
+    return
   }
+
+  // try {
+  //   await bookmarkStore.updateBookmark(route.params.id, {
+  //     url: form.url,
+  //     description: form.summary
+  //   })
+  //   router.push('/bookmarks')
+  // } catch (err) {
+  //   // Error is handled by the store
+  // }
 }
 
 const clearMessages = () => {
