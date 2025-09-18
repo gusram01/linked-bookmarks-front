@@ -30,7 +30,7 @@ export const useBookmarkStore = defineStore("bookmarks", () => {
 
   // Getters
   const hasBookmarks = computed(() => totalCount.value > 0);
-  const hasSearch = computed(() => searchedBookmarks.value.length > 0);
+  const hasSearch = computed(() => search.value.trim().length > 0);
   const screenBookmarks = computed(() => {
     return hasSearch.value ? searchedBookmarks.value : bookmarks.value;
   });
@@ -74,7 +74,8 @@ export const useBookmarkStore = defineStore("bookmarks", () => {
 
     try {
       const data = await searchBy(query);
-      searchedBookmarks.value = data;
+      searchedBookmarks.value = data.links;
+      
     } catch (err: any) {
       error.value = err.message || "Failed to search bookmarks";
     } finally {

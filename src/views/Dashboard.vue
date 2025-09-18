@@ -4,8 +4,11 @@
     <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
       <div>
         <h1 class="text-3xl font-bold text-gray-900 mb-2">My Bookmarks</h1>
+
         <p class="text-gray-600">
-          {{ hasBookmarks ? `${totalCount} saved ${totalCount === 1 ? 'link' : 'links'}` : 'Manage your saved links' }}
+          <span v-if="hasSearch">Searching for "{{ search }}"</span>
+          <span v-else-if="hasBookmarks">There {{  totalCount === 1 ? 'is' : 'are' }} {{ totalCount }} saved {{ totalCount === 1 ? 'link' : 'links' }}</span>
+          <span v-else>Manage your bookmarks</span>
         </p>
       </div>
       <nav class="mt-4 sm:mt-0 flex grow shrink-0 items-center justify-end gap-3 flex-wrap items-stretch">
@@ -146,6 +149,7 @@ const {
   error,
   successMessage,
   hasBookmarks,
+  hasSearch,
   totalCount,
   totalPages,
   currentPage,

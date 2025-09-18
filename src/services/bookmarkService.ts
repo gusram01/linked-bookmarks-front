@@ -75,7 +75,11 @@ export function useBookmarkService() {
       return response.data.data || { links: [], totalCount: 0, totalPages: 0 };
     },
 
-    async searchBy(query: string): Promise<Bookmark[]> {
+    async searchBy(query: string): Promise<{
+      links: Bookmark[];
+      totalCount: number;
+      totalPages: number;
+    }> {
       const config: AxiosRequestConfig = {
         params: { s: query },
       };
