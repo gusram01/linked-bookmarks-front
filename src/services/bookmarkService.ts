@@ -75,8 +75,17 @@ export function useBookmarkService() {
       return response.data.data || { links: [], totalCount: 0, totalPages: 0 };
     },
 
+    async searchBy(query: string): Promise<Bookmark[]> {
+      const config: AxiosRequestConfig = {
+        params: { s: query },
+      };
+
+      const response = await api.get("/api/links/search", config);
+      return response.data.data || [];
+    },
+
     async getById(id: string): Promise<Bookmark> {
-      const response = await api.get(`/api/links/${id}`);
+      const response = await api.get(`/api/links/search/${id}`);
       return response.data.data;
     },
 
